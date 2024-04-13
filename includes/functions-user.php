@@ -11,6 +11,10 @@ function user_login( $username, $password ){
 
 }
 
+function logout(){
+    unset( $_SESSION['user_id'] );
+}
+
 function is_user_login(){
     return isset( $_SESSION['user_id'] );
 }
@@ -36,32 +40,4 @@ function get_user( $user_id ){
 
     return $user;
 
-}
-
-
-
-
-
-function add_user( $name, $family, $image, $description, $gender, $newsletter  ){
-
-    global $db;
-    $date = date( 'Y-m-d H:i:s' );
-    $insert_sql = "INSERT INTO users
-    ( first_name, last_name, description, gender, image, newsletter, register_date )
-    VALUES 
-    ( '$name', '$family', '$description', '$gender', '$image', $newsletter, '$date' )";
-
-    $result = $db->exec( $insert_sql );
-
-    return $result;
-
-}
-
-function delete_user( $user_id ){
-    $id     = intval( $user_id );
-    if( $id ){
-        $sql    = "DELETE FROM users WHERE ID = $user_id";
-        return db()->exec( $sql );
-    }
-    return false;
 }

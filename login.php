@@ -1,11 +1,23 @@
 <?php
 require( 'includes/init.php' );
 
+if( isset($_GET['action']) && $_GET['action'] == 'logout' ){
+	logout();
+}
+
+if( is_user_login() ){
+	redirect('/panel');
+}
+
 $error = '';
 if( isset( $_POST['login'] ) ){
 	$user = user_login( $_POST['username'], $_POST['password'] );
 	if( $user ){
 		$_SESSION['user_id'] = $user['ID'];
+
+		//send to panel
+		redirect('/panel');
+
 	}else{
 		//user pass invalid
 		$error = 'User or pass invalid';
