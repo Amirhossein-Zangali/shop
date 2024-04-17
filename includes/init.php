@@ -4,7 +4,7 @@ date_default_timezone_set( 'Asia/Tehran' );
 
 session_start();
 
-define( 'HOME_URL', 'http://localhost/shop' );
+define( 'HOME_URL', 'http://localhost/shop/' );
 
 include( 'jdf.php' );
 include( 'db.php' );

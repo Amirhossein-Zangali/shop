@@ -8,3 +8,8 @@ function redirect( $url ){
 function url( $path ){
     return HOME_URL . $path;
 }
+
+
+function image_url( $path ) {
+    return url( $path );
+}

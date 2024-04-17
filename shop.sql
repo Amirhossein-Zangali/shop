@@ -1,15 +1,21 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost:3306
--- Generation Time: Apr 15, 2024 at 07:33 AM
--- Server version: 8.0.30
--- PHP Version: 8.1.10
+-- Host: 127.0.0.1
+-- Generation Time: Apr 17, 2024 at 04:05 PM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
 
 --
 -- Database: `shop`
@@ -23,9 +29,9 @@ SET time_zone = "+00:00";
 
 DROP TABLE IF EXISTS `categories`;
 CREATE TABLE `categories` (
-  `ID` bigint UNSIGNED NOT NULL,
-  `title` varchar(250) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `item_count` int UNSIGNED NOT NULL
+  `ID` bigint(20) UNSIGNED NOT NULL,
+  `title` varchar(250) NOT NULL,
+  `item_count` int(10) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -36,17 +42,17 @@ CREATE TABLE `categories` (
 
 DROP TABLE IF EXISTS `orders`;
 CREATE TABLE `orders` (
-  `ID` bigint UNSIGNED NOT NULL,
-  `user_id` bigint NOT NULL,
-  `cart_id` bigint NOT NULL,
-  `status` varchar(40) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'pending',
-  `gateway` varchar(40) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `referene_code` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'gateway recieve code',
-  `state` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `city` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `address` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `zip_code` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `tracking_post` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `ID` bigint(20) UNSIGNED NOT NULL,
+  `user_id` bigint(20) NOT NULL,
+  `cart_id` bigint(20) NOT NULL,
+  `status` varchar(40) NOT NULL DEFAULT 'pending',
+  `gateway` varchar(40) NOT NULL,
+  `referene_code` varchar(20) NOT NULL COMMENT 'gateway recieve code',
+  `state` varchar(100) NOT NULL,
+  `city` varchar(100) NOT NULL,
+  `address` text NOT NULL,
+  `zip_code` varchar(10) NOT NULL,
+  `tracking_post` varchar(30) NOT NULL,
   `created_at` datetime NOT NULL,
   `completed_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -59,16 +65,16 @@ CREATE TABLE `orders` (
 
 DROP TABLE IF EXISTS `products`;
 CREATE TABLE `products` (
-  `ID` bigint UNSIGNED NOT NULL,
-  `title` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `content` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `thumbnail` varchar(250) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `price` int UNSIGNED NOT NULL,
-  `discount_percent` tinyint UNSIGNED NOT NULL DEFAULT '0',
+  `ID` bigint(20) UNSIGNED NOT NULL,
+  `title` varchar(100) NOT NULL,
+  `content` text NOT NULL,
+  `thumbnail` varchar(250) NOT NULL,
+  `price` int(10) UNSIGNED NOT NULL,
+  `discount_percent` tinyint(3) UNSIGNED NOT NULL DEFAULT 0,
   `discount_date` datetime DEFAULT NULL,
-  `total_sale` int UNSIGNED NOT NULL DEFAULT '0',
-  `sale_count` mediumint UNSIGNED NOT NULL DEFAULT '0',
-  `stock` int UNSIGNED NOT NULL,
+  `total_sale` int(10) UNSIGNED NOT NULL DEFAULT 0,
+  `sale_count` mediumint(8) UNSIGNED NOT NULL DEFAULT 0,
+  `stock` int(10) UNSIGNED NOT NULL,
   `created_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -1119,9 +1125,9 @@ INSERT INTO `products` (`ID`, `title`, `content`, `thumbnail`, `price`, `discoun
 
 DROP TABLE IF EXISTS `product_categories`;
 CREATE TABLE `product_categories` (
-  `ID` int UNSIGNED NOT NULL,
-  `product_id` bigint UNSIGNED NOT NULL,
-  `category_id` bigint UNSIGNED NOT NULL
+  `ID` int(10) UNSIGNED NOT NULL,
+  `product_id` bigint(20) UNSIGNED NOT NULL,
+  `category_id` bigint(20) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -1132,10 +1138,10 @@ CREATE TABLE `product_categories` (
 
 DROP TABLE IF EXISTS `shopping_carts`;
 CREATE TABLE `shopping_carts` (
-  `ID` bigint UNSIGNED NOT NULL,
-  `user_id` bigint UNSIGNED NOT NULL,
-  `total` int UNSIGNED NOT NULL,
-  `subtotal` int UNSIGNED NOT NULL,
+  `ID` bigint(20) UNSIGNED NOT NULL,
+  `user_id` bigint(20) UNSIGNED NOT NULL,
+  `total` int(10) UNSIGNED NOT NULL,
+  `subtotal` int(10) UNSIGNED NOT NULL,
   `created_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -1147,12 +1153,12 @@ CREATE TABLE `shopping_carts` (
 
 DROP TABLE IF EXISTS `shopping_cart_items`;
 CREATE TABLE `shopping_cart_items` (
-  `ID` bigint UNSIGNED NOT NULL,
-  `cart_id` bigint UNSIGNED NOT NULL,
-  `product_id` bigint UNSIGNED NOT NULL,
-  `qantity` smallint UNSIGNED NOT NULL,
-  `price` int UNSIGNED NOT NULL,
-  `sale_price` int UNSIGNED NOT NULL,
+  `ID` bigint(20) UNSIGNED NOT NULL,
+  `cart_id` bigint(20) UNSIGNED NOT NULL,
+  `product_id` bigint(20) UNSIGNED NOT NULL,
+  `qantity` smallint(5) UNSIGNED NOT NULL,
+  `price` int(10) UNSIGNED NOT NULL,
+  `sale_price` int(10) UNSIGNED NOT NULL,
   `created_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -1164,19 +1170,19 @@ CREATE TABLE `shopping_cart_items` (
 
 DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
-  `ID` bigint UNSIGNED NOT NULL,
-  `username` varchar(40) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `password` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `email` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `family` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `phone` varchar(11) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `photo` varchar(250) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `state` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `city` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `address` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `zip_code` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `total_sale` int UNSIGNED NOT NULL DEFAULT '0',
+  `ID` bigint(20) UNSIGNED NOT NULL,
+  `username` varchar(40) NOT NULL,
+  `password` varchar(50) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `family` varchar(100) NOT NULL,
+  `phone` varchar(11) NOT NULL,
+  `photo` varchar(250) NOT NULL,
+  `state` varchar(100) NOT NULL,
+  `city` varchar(100) NOT NULL,
+  `address` text NOT NULL,
+  `zip_code` varchar(10) NOT NULL,
+  `total_sale` int(10) UNSIGNED NOT NULL DEFAULT 0,
   `register_date` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -1231,29 +1237,33 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `ID` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `ID` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `ID` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `ID` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `ID` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1016;
+  MODIFY `ID` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1016;
 
 --
 -- AUTO_INCREMENT for table `product_categories`
 --
 ALTER TABLE `product_categories`
-  MODIFY `ID` int UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `ID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `ID` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `ID` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
