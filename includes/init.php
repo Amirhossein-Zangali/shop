@@ -10,3 +10,4 @@ include( 'jdf.php' );
 include( 'db.php' );
 include( 'functions-user.php' );
 include( 'function-core.php' );
+include( 'function-products.php' );
